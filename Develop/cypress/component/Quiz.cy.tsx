@@ -1,5 +1,5 @@
 import {mount} from 'cypress/react'
-import React from 'react'
+//import React from 'react'
 import Quiz from '../../client/src/components/Quiz'
 
 cy.intercept({
@@ -35,18 +35,19 @@ describe('Quiz', () => {
       cy.get('button').contains('Start Quiz').click()
       cy.wait('@getQuestions');
       cy.get('h2').contains('What is 2 +2?').should('be.visible')
+      cy.get('button').contains('1').should('be.visible')
+      cy.get('button').contains('2').should('be.visible')
       cy.get('button').contains('3').should('be.visible')
       cy.get('button').contains('4').should('be.visible')
-      cy.get('button').contains('5').should('be.visible')
-      cy.get('button').contains('6').should('be.visible')
       
     });
 
     it('finish quiz page wll display when all questions are complete', ()=> {
       mount(<Quiz/>);
       cy.get('button').contains('Start Quiz').click()
-      cy.get('button').contains('4').click() //correct answer
-      cy.get('button').contains('Paris').click() //correct answer
+      cy.wait('@getQuestions')
+      cy.get('button').contains('2').click() //correct answer
+      cy.get('button').contains('3').click() //correct answer
       cy.get('h2').contains('Quiz completed').should('be.visible')
       cy.get('div').contains('Your score').should('be.visible')
       cy.get('button').contains('Take New Quiz').should('be.visible')
@@ -56,8 +57,8 @@ describe('Quiz', () => {
     it('new quiz will start when take new quiz button is clicked', ()=> {
       mount(<Quiz/>)
       cy.get('button').contains('Start Quiz').click()
-      cy.get('button').contains('4').click() 
-      cy.get('button').contains('Paris').click()
+      cy.get('button').contains('2').click() 
+      cy.get('button').contains('4').click()
       cy.get('button').contains('Take New Quiz').click()
       cy.get('button').contains('Take New Quiz').should('not.exist')
 
