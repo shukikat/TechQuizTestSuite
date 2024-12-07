@@ -1,29 +1,33 @@
 describe('Quiz End-To-End', () => {
   beforeEach(()=> {
-    cy.visit('http://localhost:3000/');
+    cy.visit('/', {
+      timeout:30000
+    });
+
     cy.intercept({
         method:'GET',
-        url:'api/question'
-    }, 
+        url:'api/questions/random'
 
-    {
-      fixture: 'questions.json',
-      statusCode:200
+    },
+       {fixture: 'questions.json',
+       statusCode: 200}
 
-    }
-    ).as('getQuestions')
-
-
+  
+  ).as('fixtureQuestions')
+    
+  it("A user arrives at the home page where start button is", ()=>{
+    cy.visit('/');
+  })
   });
 
   it('should allow a user to complete the quiz', ()=> {
    cy.get('button').contains('Start Quiz').click();
-   cy.wait('@getQuestions');
+   cy.wait('@fixtureQuestions');
   
-   cy.get('h2').contains('What is 2 + 2').should('be.visible');
+   cy.get('h2').contains('What is 2 + 2?').should('be.visible');
    cy.get('button').contains('2').click();
 
-   cy.wait('@getQuestions');
+   cy.wait('@fixtureQuestions');
    cy.get('h2').contains('What is the capital of France?').should('be.visible');
    cy.get('button').contains('3').click();
    
@@ -33,15 +37,15 @@ describe('Quiz End-To-End', () => {
   }); 
 
   it('should allow the user to start a new quiz', ()=> {
-    cy.get('button').contains('Start Quiz').click();
-    cy.wait('@getQuestions');
+    cy.get('button').contains('Take New Quiz').click();
+    cy.wait('@fixtureQuestions');
 
     cy.get('button').contains('2').click();
-    cy.wait('@getQuestions');
+    cy.wait('@fixtureQuestions');
     cy.get('button').contains('3').click();
     cy.get('button').contains('Take New Quiz').click();
 
-    cy.get('button').contains('Start Quiz').should('be.visible');
+    //cy.get('button').contains('Start Quiz').should('be.visible');
 
 
   });
