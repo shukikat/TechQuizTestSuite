@@ -17,6 +17,7 @@ describe('Quiz End-To-End', () => {
     
   it("A user arrives at the home page where start button is", ()=>{
     cy.visit('/');
+    //cy.get('button').contains('Start Quiz').should('be.visible');
   })
   });
 
