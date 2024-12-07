@@ -2,20 +2,27 @@ import {mount} from 'cypress/react'
 //import React from 'react'
 import Quiz from '../../client/src/components/Quiz'
 
-cy.intercept({
-  method:'GET',
-  url:'/api/questions'
-},
-{
-  fixture:'questions.json',
-  statusCode: 200
-}).as('getQuestions');
-
-
 describe('Quiz', () => {
+  // cy.intercept({
+  //   method:'GET',
+  //   url:'/api/questions'
+  // },
+  // {
+  //   fixture:'questions.json',
+  //   statusCode: 200
+  // }).as('getQuestions');
+
   it('should render the "Start Quiz" button', () => {
     // see: https://on.cypress.io/mounting-react
      mount(<Quiz />);
+     cy.intercept({
+      method:'GET',
+      url:'/api/questions'
+    },
+    {
+      fixture:'questions.json',
+      statusCode: 200
+    }).as('getQuestions');
      cy.get('button').contains('Start Quiz').should('be.visible')
   });
 
@@ -32,6 +39,7 @@ describe('Quiz', () => {
      
     it('question page will display question and answers' , ()=> {
       mount(<Quiz/>);
+   
       cy.get('button').contains('Start Quiz').click()
       cy.wait('@getQuestions');
       cy.get('h2').contains('What is 2 +2?').should('be.visible')
