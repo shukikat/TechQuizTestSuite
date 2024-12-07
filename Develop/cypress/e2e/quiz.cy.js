@@ -27,8 +27,8 @@ describe('Quiz End-To-End', () => {
   
    cy.get('h2').contains('What is 2 + 2?').should('be.visible');
    cy.get('button').contains('2').click();
-
-   cy.wait('@fixtureQuestions');
+   //cy.wait('@fixtureQuestions');
+   
    cy.get('h2').contains('What is the capital of France?').should('be.visible');
    cy.get('button').contains('3').click();
    
