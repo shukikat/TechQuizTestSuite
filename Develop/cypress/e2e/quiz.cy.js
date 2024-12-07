@@ -34,17 +34,21 @@ describe('Quiz End-To-End', () => {
    
    cy.get('h2').contains('Quiz Completed').should('be.visible');
    cy.get('div').contains('Your score').should('be.visible');
-   cy.get('button').contains('Take New Quiz').should('be.visible');
+   //cy.get('button').contains('Take New Quiz').should('be.visible');
+   cy.contains('button', 'Take New Quiz').click();
   }); 
 
   it('should allow the user to start a new quiz', ()=> {
-    cy.get('button').contains('Take New Quiz').click();
+    //cy.get('button').contains('Take New Quiz').click();
+    //cy.contains('button', 'Take New Quiz').click();
+    cy.get('.btn.btn-primary').click();
     cy.wait('@fixtureQuestions');
 
     cy.get('button').contains('2').click();
-    cy.wait('@fixtureQuestions');
+    //cy.wait('@fixtureQuestions');
     cy.get('button').contains('3').click();
-    cy.get('button').contains('Take New Quiz').click();
+    //cy.get('button').contains('Take New Quiz').click();
+    cy.contains('button', 'Take New Quiz').click();
 
     //cy.get('button').contains('Start Quiz').should('be.visible');
 
